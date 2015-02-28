@@ -1,0 +1,1 @@
+# newbie's shellcode
