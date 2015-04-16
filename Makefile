@@ -1,0 +1,8 @@
+all:
+	gcc -std=c99 -m32 -g -z execstack -o runhex runhex.c
+
+test:
+	./runhex '\xeb\x0a\x6a\x0b\x58\x5b\x31\xc9\x31\xd2\xcd\x80\xe8\xf1\xff\xff\xff\x2f\x62\x69\x6e\x2f\x73\x68'
+
+install:
+	ln -srf ./runhex ~/lnk/runhex
