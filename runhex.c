@@ -1,5 +1,5 @@
 /*
- * Executing Hex String Data On The Stack
+ * Executing C-Style-Hex-Escaped String Data On The Stack
  *
  * 16 April 2015
  *
@@ -15,7 +15,7 @@
 #include <string.h>
 
 char *
-hexstr2shellcode(const char *hexstr, char *shellcode);
+str2bytes (const char *str, char *bytes);
 
 int
 main (int argc, char *argv[])
@@ -31,7 +31,7 @@ main (int argc, char *argv[])
   printf("        strlen(argv[1]) = %d\n", strlen(argv[1]));
 
   printf("[+] %s\n", "converting to shellcode...");
-  hexstr2shellcode(argv[1], shellcode);
+  str2bytes(argv[1], shellcode);
 
   printf("        strlen(shellcode) = %d\n", strlen(shellcode));
   printf("[+] %s\n", "executing data on the stack...");
@@ -41,22 +41,22 @@ main (int argc, char *argv[])
 }
 
 char *
-hexstr2shellcode(const char *hexstr, char *shellcode)
+str2bytes (const char *str, char *bytes)
 {
   int n = 0;
   char buf[3];
 
-  for(int i = 0; i < strlen(hexstr); ++i) {
-    if(hexstr[i] == '\\') {
-      strncpy(buf, hexstr + i + 2, 2);
+  for(int i = 0; i < strlen(str); ++i) {
+    if(str[i] == '\\') {
+      strncpy(buf, str + i + 2, 2);
       buf[2] = '\0';
 
-      shellcode[n] = strtol(buf, NULL, 16);
+      bytes[n] = strtol(buf, NULL, 16);
       ++n;
     }
   }
 
-  shellcode[n] = '\0';
+  bytes[n] = '\0';
 
-  return shellcode;
+  return bytes;
 }
