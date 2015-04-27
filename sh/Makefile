@@ -1,4 +1,6 @@
 SS = push pop
+SS64 = push64 pop64
+ALL = push pop push64 pop64
 
 all:
 	for i in $(SS); \
@@ -7,14 +9,21 @@ all:
 		rm -f a.out; \
 	done
 
-strace: all
-	for i in $(SS); \
+all64:
+	for i in $(SS64); \
+	do \
+		as "$$i".s && ld -o "$$i" a.out; \
+		rm -f a.out; \
+	done
+
+strace: all all64
+	for i in $(ALL); \
 	do \
 		strace ./"$$i"; \
 	done
 
-shellcode: all
-	for j in $(SS); \
+shellcode: all all64
+	for j in $(ALL); \
 	do \
 		printf 'char *shellcode = "'; \
 		for i in $$(objdump -d "$$j" | grep -oP '\t\K.+\t'); \
@@ -24,8 +33,8 @@ shellcode: all
 		printf '";\n'; \
 	done
 
-c: all
-	for j in $(SS); \
+c: all all64
+	for j in $(ALL); \
 	do \
 		printf '#include <stdio.h>\n#include <string.h>\n\n' > "$$j".c; \
 		printf 'int\nmain(void)\n{\n  ' >> "$$j".c; \
@@ -47,8 +56,14 @@ test: c
 		gcc -m32 -z execstack -g -o "$$i"-test "$$i".c; \
 	done
 
+test64: c
+	for i in $(SS64); \
+	do \
+		gcc -z execstack -g -o "$$i"-test "$$i".c; \
+	done
+
 clean:
-	for i in $(SS); \
+	for i in $(ALL); \
 	do \
 		rm -f "$$i" "$$i".c "$$i"-test; \
 	done
