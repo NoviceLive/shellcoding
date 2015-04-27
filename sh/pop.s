@@ -21,7 +21,7 @@ execve_sh:
     popl %ebx
 
     xorl %ecx, %ecx
-    xorl %edx, %edx
+    # xorl %edx, %edx
 
     int $0x80
 

