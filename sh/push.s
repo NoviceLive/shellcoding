@@ -20,13 +20,13 @@ _start:
     # 'n' 'i' 'b' '/'
     pushl $0x6e69622f
 
+    # const char *filename
+    movl %esp, %ebx
+
     # __NR_execve 11
     # movb $11, %al
     pushl $11
     popl %eax
-
-    # const char *filename
-    movl %esp, %ebx
 
     # char *const argv[]
     # xorl %ecx, %ecx
