@@ -22,4 +22,6 @@ _start:
     pushq $59
     popq %rax
 
+    xorl %edx, %edx
+
     syscall

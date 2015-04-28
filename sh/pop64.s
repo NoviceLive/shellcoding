@@ -20,6 +20,7 @@ execve_sh:
     popq %rax
 
     xorl %esi, %esi
+    xorl %edx, %edx
 
     syscall
 
