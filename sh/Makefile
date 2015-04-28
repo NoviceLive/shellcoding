@@ -26,7 +26,7 @@ shellcode: all all64
 	for j in $(ALL); \
 	do \
 		printf 'char *shellcode = "'; \
-		for i in $$(objdump -d "$$j" | grep -oP '\t\K.+\t'); \
+		for i in $$(objdump -d "$$j" | grep -oP '\t([0-9a-f]{2}\s)+'); \
 		do \
 			printf "\\\x$$i"; \
 		done; \
@@ -39,7 +39,7 @@ c: all all64
 		printf '#include <stdio.h>\n#include <string.h>\n\n' > "$$j".c; \
 		printf 'int\nmain(void)\n{\n  ' >> "$$j".c; \
 		printf 'char *shellcode = "' | tee -a "$$j".c; \
-		for i in $$(objdump -d "$$j" | grep -oP '\t\K.+\t'); \
+		for i in $$(objdump -d "$$j" | grep -oP '\t([0-9a-f]{2}\s)+'); \
 		do \
 			printf "\\\x$$i" | tee -a "$$j".c; \
 		done; \
