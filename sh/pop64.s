@@ -19,7 +19,7 @@ execve_sh:
     pushq $59
     popq %rax
 
-    xorl %ecx, %ecx
+    xorl %esi, %esi
 
     syscall
 
