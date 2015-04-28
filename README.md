@@ -23,16 +23,16 @@
 
 #### push.s 32-bit
 
-20 bytes
+21 bytes
 
 #### pop.s 32-bit
 
-22 bytes
+23 bytes
 
 #### push64.s 64-bit
 
-21 bytes
+23 bytes
 
 #### pop64.s 64-bit
 
-22 bytes
+24 bytes
