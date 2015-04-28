@@ -1,4 +1,6 @@
-# newbie's shellcoding journey and shellcode collections
+# Newbie's Shellcoding Journey And Shellcode Collections
+
+# My Makefile sucks. Please help me!
 
 ## linux
 

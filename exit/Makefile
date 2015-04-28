@@ -1,3 +1,5 @@
+# This Makefile sucks. Please help me!
+
 SS = newbie nullfree expert
 
 all:

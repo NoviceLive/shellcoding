@@ -1,3 +1,5 @@
+# This Makefile sucks. Please help me!
+
 SS = push pop
 SS64 = push64 pop64
 ALL = push pop push64 pop64
