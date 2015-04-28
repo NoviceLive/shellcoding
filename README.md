@@ -26,3 +26,11 @@
 #### pop.s 32-bit
 
 22 bytes
+
+#### push64.s 64-bit
+
+21 bytes
+
+#### pop64.s 64-bit
+
+22 bytes
