@@ -7,7 +7,7 @@ My Makefile sucks. Please help me!
 
 ## Linux
 
-1. exit x86
+### exit x86
 
 newbie.s: 12 bytes with a lot of null bytes
 
@@ -16,7 +16,7 @@ nullfree.s: 8 bytes
 expert.s: 7 bytes
 
 
-2. execve /bin/sh
+### execve /bin/sh
 
 push.s: 32-bit, 21 bytes
 
