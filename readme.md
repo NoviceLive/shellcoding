@@ -1,27 +1,13 @@
-# Shellcoding Journey
-# Shellcode 编写
+# Shellcoding
 
 My Makefile sucks. Please help me!
 
-我想把 Makefile 写好。
-
 ## Linux
 
-### exit x86
+- [exit ia32 7 bytes](./linux/exit/expert.s)
 
-newbie.s: 12 bytes with a lot of null bytes
+- [execve /bin/sh ia32 21 bytes](./linux/sh/push.s)
 
-nullfree.s: 8 bytes
+- [execve /bin/sh amd64 23 bytes](./linux/sh/push64.s)
 
-expert.s: 7 bytes
-
-
-### execve /bin/sh
-
-push.s: 32-bit, 21 bytes
-
-pop.s: 32-bit, 23 bytes
-
-push64.s: 64-bit, 23 bytes
-
-pop64.s: 64-bit, 24 bytes
+## Windows
