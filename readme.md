@@ -1,6 +1,10 @@
 # Shellcoding
 
-My Makefile sucks. Please help me!
+My [Makefile](./linux/sh/Makefile) sucks. Please help me!
+
+## Scripts
+
+
 
 ## Linux
 
