@@ -4,7 +4,7 @@ My [Makefile](./linux/sh/Makefile) sucks. Please help me!
 
 ## Scripts
 
-
+[mkhex.sh](./mkhex.sh)
 
 ## Linux
 
