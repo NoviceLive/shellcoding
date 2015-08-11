@@ -1,14 +1,14 @@
 default:
-	gcc -std=c99 -m32 -g -z execstack -o runhex runhex.c
-	gcc -std=c99 -g -z execstack -o runhex64 runhex.c
+	gcc -std=c99 -m32 -o runhex32 runhex.c
+	gcc -std=c99 -o runhex64 runhex.c
 
 
 test:
-	./runhex '\x31\xc9\xf7\xe1\xb0\x0b\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xcd\x80'
+	./runhex32 '\x31\xc9\xf7\xe1\xb0\x0b\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xcd\x80'
 	./runhex64 '\x31\xf6\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x56\x53\x54\x5f\x6a\x3b\x58\x31\xd2\x0f\x05'
 
 
 install:
-	ln -srf ./runhex ~/lnk/runhex
+	ln -srf ./runhex32 ~/lnk/runhex32
 	ln -srf ./runhex64 ~/lnk/runhex64
 	ln -srf ./mkhex.sh ~/lnk/mkhex
