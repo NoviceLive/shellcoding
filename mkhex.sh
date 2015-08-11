@@ -26,10 +26,11 @@ then
         printf 'and heavily commented assembly source code\n * '
         printf 'for this shellcode,'
         printf ' is available at\n * '
-        printf 'https://github.com/NoviceLive/shellcoding.\n * '
+        printf 'https://github.com/NoviceLive/shellcoding.\n *'
         printf '\n * For those curious heads\n * '
         printf "striving to figure out what's under the hood.\n"
         printf ' *\n */\n\n\n'
+        printf '# include <stdlib.h>\n'
         printf '# include <stdio.h>\n# include <string.h>\n'
         if [[ $2 -eq 3 ]]
         then
@@ -76,7 +77,7 @@ then
             printf '\n    PROT_READ | PROT_WRITE | PROT_EXEC);\n\n'
             printf '  if (ret) {\n'
             printf '    printf ("mprotect\\n");\n'
-            printf '    return 1;\n  }\n\n'
+            printf '    return EXIT_FAILURE;\n  }\n\n'
         fi
 
         if [[ $2 -eq 4 ]]
@@ -88,12 +89,12 @@ then
             printf '&why_must_this_variable);\n\n'
             printf '  if (!ret) {\n'
             printf '    printf ("VirtualProtect\\n");\n'
-            printf '    return 1;\n  }\n'
+            printf '    return EXIT_FAILURE;\n  }\n\n'
         fi
         printf '  printf("strlen(shellcode)=%%d\\n"'
         printf ', strlen(shellcode));'
         printf '\n\n  ((void (*)(void))shellcode)();\n\n'
-        printf '  return 0;\n}'
+        printf '  return EXIT_SUCCESS;\n}'
     fi
 
     printf '\n'
