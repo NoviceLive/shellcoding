@@ -1,11 +1,10 @@
 /*
  * Executing C-Style-Hex-Escaped String Data On The Stack
  *
- * Copyright (C) 2015 Gu Zhengxiong (rectigu@gmail.com)
+ * Copyright 2015 Gu Zhengxiong <rectigu@gmail.com>
  *
  * GPL
  */
-
 
 
 # include <stdlib.h>
@@ -14,11 +13,11 @@
 # include <stdint.h>
 
 # ifdef __linux__
-# include <sys/mman.h>
+#  include <sys/mman.h>
 # endif /* __linux__ */
 
 # ifdef _WIN32
-# include <windows.h>
+#  include <windows.h>
 # endif /* _WIN32 */
 
 
@@ -26,7 +25,7 @@
 
 
 char *
-str2bytes(const char *str, char *bytes);
+chexstr_to_bytes(const char *str, char *bytes);
 
 
 int
@@ -40,10 +39,11 @@ main (int argc, char *argv[])
   char shellcode[SIZE];
 
 # ifdef __linux__
-  int ret = mprotect ((void *)((uintptr_t)shellcode & ~4095), 4096,
-                      PROT_READ | PROT_WRITE | PROT_EXEC);
+  int failure = mprotect ((void *)((uintptr_t)shellcode & ~4095),
+                          4096,
+                          PROT_READ | PROT_WRITE | PROT_EXEC);
 
-  if (ret) {
+  if (failure) {
     printf("mprotect\n");
     return EXIT_FAILURE;
   }
@@ -51,9 +51,10 @@ main (int argc, char *argv[])
 
 # ifdef _WIN32
   DWORD why_must_this_variable;
-  BOOL ret = VirtualProtect (shellcode, strlen(shellcode),
-                  PAGE_EXECUTE_READWRITE, &why_must_this_variable);
-  if (!ret) {
+  BOOL success = VirtualProtect (shellcode, strlen(shellcode),
+                                 PAGE_EXECUTE_READWRITE,
+                                 &why_must_this_variable);
+  if (!success) {
     printf ("VirtualProtect\n");
     return EXIT_FAILURE;
   }
@@ -63,8 +64,7 @@ main (int argc, char *argv[])
   printf("        strlen(argv[1]) = %d\n", strlen(argv[1]));
 
   printf("[+] %s\n", "converting to shellcode...");
-  str2bytes(argv[1], shellcode);
-
+  chexstr_to_bytes(argv[1], shellcode);
 
   printf("        strlen(shellcode) = %d\n", strlen(shellcode));
   printf("[+] %s\n", "executing data on the stack...");
@@ -75,7 +75,7 @@ main (int argc, char *argv[])
 
 
 char *
-str2bytes(const char *str, char *bytes)
+chexstr_to_bytes(const char *str, char *bytes)
 {
   int n = 0;
   char buf[3];
