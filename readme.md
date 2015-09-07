@@ -1,19 +1,26 @@
 # Shellcoding
 
-My [Makefile](./linux/sh/Makefile) sucks.
+## Programs
+
+### [runhex.c](./runhex.c)
+
+Executing C-style hex-escaped string data on the stack.
 
 ## Scripts
 
-[mkhex.sh](./mkhex.sh)
+### [mkhex.sh](./mkhex.sh)
 
-## Linux
+Extracting shellcode from binaries
+and / or constructing a C source file for testing purposes.
 
-- [exit ia32 7 bytes](./linux/exit/expert.s)
+## Linux Shellcode
 
-- [execve /bin/sh ia32 21 bytes](./linux/sh/push.s)
+- [exit IA32 7 Bytes Null-Free](./linux/exit/expert.s)
 
-- [execve /bin/sh amd64 23 bytes](./linux/sh/push64.s)
+- [execve /bin/sh IA32 21 Bytes Null-Free](./linux/sh/push.s)
 
-## Windows
+- [execve /bin/sh AMD64 23 Bytes Null-Free](./linux/sh/push64.s)
 
-- [user32!MessageBoxA "Hello World!" All x86 Windows 199 bytes](./windows/messagebox/messagebox32.asm)
+## Windows Shellcode
+
+- [user32!MessageBoxA "Hello World!" All x86 Windows 199 Bytes Null-Free](./windows/messagebox/messagebox32.asm)

@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-#
-# I am a bash starter. Feel free to improve
-# or adapt this script.
-#
 
 #
 # Copyright 2015 Gu Zhengxiong <rectigu@gmail.com>

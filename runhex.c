@@ -75,14 +75,14 @@ main (int argc, char *argv[])
 
 
 char *
-chexstr_to_bytes(const char *str, char *bytes)
+chexstr_to_bytes(const char *chexstr, char *bytes)
 {
   int n = 0;
   char buf[3];
 
-  for (int i = 0; i < strlen(str); ++i) {
-    if (str[i] == '\\') {
-      strncpy(buf, str + i + 2, 2);
+  for (int i = 0; i < strlen(chexstr); ++i) {
+    if (chexstr[i] == '\\') {
+      strncpy(buf, chexstr + i + 2, 2);
       buf[2] = '\0';
 
       bytes[n] = strtol(buf, NULL, 16);
