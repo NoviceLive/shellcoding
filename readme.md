@@ -11,7 +11,7 @@ Executing C-style hex-escaped string data on the stack.
 ### [mkhex.sh](./mkhex.sh)
 
 Extracting shellcode from binaries
-and / or constructing a C source file for testing purposes.
+and / or constructing C source code for demonstration or testing.
 
 ## Linux Shellcode
 
