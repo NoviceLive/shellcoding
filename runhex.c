@@ -60,14 +60,14 @@ main (int argc, char *argv[])
   }
 # endif /* _WIN32 */
 
-  printf("[+] %s\n", "starting...");
-  printf("        strlen(argv[1]) = %d\n", strlen(argv[1]));
+  printf("[+] %s\n", "Starting...");
+  printf("        strlen(argv[1]) = %zu\n", strlen(argv[1]));
 
-  printf("[+] %s\n", "converting to shellcode...");
+  printf("[+] %s\n", "Converting To Bytes...");
   chexstr_to_bytes(argv[1], shellcode);
 
-  printf("        strlen(shellcode) = %d\n", strlen(shellcode));
-  printf("[+] %s\n", "executing data on the stack...");
+  printf("        strlen(shellcode) = %zu\n", strlen(shellcode));
+  printf("[+] %s\n", "Executing Data On The Stack...");
   ((void (*)(void))shellcode)();
 
   return 0;
