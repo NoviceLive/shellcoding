@@ -41,7 +41,12 @@ install: runhex64 runhex32
 	sudo cp ./runhex32 /usr/bin/runhex32
 	sudo cp ./runhex64 /usr/bin/runhex64
 	sudo ln -srf /usr/bin/runhex64 /usr/bin/runhex
-	sudo cp ./mkhex.sh /usr/bin/mkhexp
+
+	sudo cp ./mkhex.sh /usr/bin/mkhex
+
+	sudo cp ./dishex32.sh /usr/bin/dishex32
+	sudo cp ./dishex64.sh /usr/bin/dishex64
+	sudo ln -srf /usr/bin/dishex64 /usr/bin/dishex
 
 
 clean:

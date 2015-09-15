@@ -6,12 +6,28 @@
 
 Executing C-style hex-escaped string data on the stack.
 
+Prebuilt binaries exist both for Windows and Linux.
+
 ## Scripts
 
 ### [mkhex.sh](./mkhex.sh)
 
 Extracting shellcode from binaries
 and / or constructing C source code for demonstration or testing.
+
+## [dishex32.sh / dishex64.sh]
+
+Disassembling the given hex string using `objdump`.
+
+Note that it relies on a `unhex` command,
+available at [pattern.c](https://github.com/NoviceLive/pattern.c),
+and the Z Shell must be installed due to the use of `=()`.
+
+For example:
+
+```bash
+./dishex64.sh cccccccc
+```
 
 ## Linux Shellcode
 
