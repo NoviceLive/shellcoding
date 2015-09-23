@@ -107,10 +107,10 @@ then
     if [[ $flag -eq 3 ]]
     then
         cat <<EOF
-  int ret = mprotect ((void *)((uintptr_t)shellcode & ~4095), 4096,
+  int failure = mprotect ((void *)((uintptr_t)shellcode & ~4095), 4096,
     PROT_READ | PROT_WRITE | PROT_EXEC);
 
-  if (ret) {
+  if (failure) {
     printf ("mprotect\n");
     return EXIT_FAILURE;
   }
@@ -121,10 +121,10 @@ EOF
     then
         cat <<EOF
   DWORD why_must_this_variable;
-  BOOL ret = VirtualProtect (shellcode, strlen(shellcode),
+  BOOL success = VirtualProtect (shellcode, strlen(shellcode),
     PAGE_EXECUTE_READWRITE, &why_must_this_variable);
 
-  if (!ret) {
+  if (!success) {
     printf ("VirtualProtect\n");
     return EXIT_FAILURE;
   }
