@@ -33,7 +33,7 @@ esac
 
 regex='\t([0-9a-f]{2}\s)+'
 
-hex=$(objdump -d "$1" | grep -oP $regex)
+hex=$(x86_64-w64-mingw32-objdump -d "$1" | grep -oP $regex)
 
 if [[ $flag -ge 2 ]]
 then
@@ -52,7 +52,8 @@ then
 
 # include <stdlib.h>
 # include <stdio.h>
-# include <string.h>
+
+# define COUNTOF(a) (sizeof(a) / sizeof(a[0]))
 
 EOF
     if [[ $flag -eq 3 ]]
@@ -77,7 +78,7 @@ int
 main(void)
 {
 EOF
-    printf '  char *shellcode = "'
+    printf '  char shellcode[] = "'
 fi
 
 c=0
@@ -107,7 +108,7 @@ then
     if [[ $flag -eq 3 ]]
     then
         cat <<EOF
-  int failure = mprotect ((void *)((uintptr_t)shellcode & ~4095), 4096,
+  int failure = mprotect((void *)((uintptr_t)shellcode & ~4095), 4096,
     PROT_READ | PROT_WRITE | PROT_EXEC);
 
   if (failure) {
@@ -121,7 +122,7 @@ EOF
     then
         cat <<EOF
   DWORD why_must_this_variable;
-  BOOL success = VirtualProtect (shellcode, strlen(shellcode),
+  BOOL success = VirtualProtect(shellcode, strlen(shellcode),
     PAGE_EXECUTE_READWRITE, &why_must_this_variable);
 
   if (!success) {
@@ -132,7 +133,7 @@ EOF
 EOF
     fi
     cat <<EOF
-  printf("strlen(shellcode)=%d\n", strlen(shellcode));
+  printf("strlen(shellcode)=%d\n", COUNTOF(shellcode));
 
   ((void (*)(void))shellcode)();
 
