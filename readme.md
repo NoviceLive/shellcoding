@@ -15,7 +15,7 @@ Prebuilt binaries exist both for Windows and Linux.
 Extracting shellcode from binaries
 and / or constructing C source code for demonstration or testing.
 
-## [dishex32.sh / dishex64.sh]
+## [dishex32.sh](./dishex32.sh) / [dishex64.sh](./dishex64.sh)
 
 Disassembling the given hex string using `objdump`.
 
