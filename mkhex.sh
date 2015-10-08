@@ -87,7 +87,7 @@ EOF
         then
             cat <<EOF
   DWORD why_must_this_variable;
-  BOOL success = VirtualProtect(shellcode, strlen(shellcode),
+  BOOL success = VirtualProtect(shellcode, COUNTOF(shellcode),
     PAGE_EXECUTE_READWRITE, &why_must_this_variable);
 
   if (!success) {
