@@ -14,10 +14,12 @@
 
 # ifdef __linux__
 #  include <sys/mman.h>
+# define SIZE_T_FMT "%zu"
 # endif /* __linux__ */
 
 # ifdef _WIN32
 #  include <windows.h>
+# define SIZE_T_FMT "%Iu"
 # endif /* _WIN32 */
 
 
@@ -35,14 +37,12 @@ main (int argc, char *argv[])
     printf ("%s\n", "exiting...");
     exit (-1);
   }
-
   char shellcode[SIZE];
 
 # ifdef __linux__
   int failure = mprotect ((void *)((uintptr_t)shellcode & ~4095),
                           4096,
                           PROT_READ | PROT_WRITE | PROT_EXEC);
-
   if (failure) {
     printf("mprotect\n");
     return EXIT_FAILURE;
@@ -51,7 +51,7 @@ main (int argc, char *argv[])
 
 # ifdef _WIN32
   DWORD why_must_this_variable;
-  BOOL success = VirtualProtect (shellcode, strlen(shellcode),
+  BOOL success = VirtualProtect (shellcode, SIZE,
                                  PAGE_EXECUTE_READWRITE,
                                  &why_must_this_variable);
   if (!success) {
@@ -61,12 +61,9 @@ main (int argc, char *argv[])
 # endif /* _WIN32 */
 
   printf("[+] %s\n", "Starting...");
-  printf("        strlen(argv[1]) = %zu\n", strlen(argv[1]));
-
+  printf("        strlen(argv[1]) / 4 = " SIZE_T_FMT "\n", strlen(argv[1]) / 4);
   printf("[+] %s\n", "Converting To Bytes...");
   chexstr_to_bytes(argv[1], shellcode);
-
-  printf("        strlen(shellcode) = %zu\n", strlen(shellcode));
   printf("[+] %s\n", "Executing Data On The Stack...");
   ((void (*)(void))shellcode)();
 
@@ -79,18 +76,14 @@ chexstr_to_bytes(const char *chexstr, char *bytes)
 {
   int n = 0;
   char buf[3];
-
   for (int i = 0; i < strlen(chexstr); ++i) {
     if (chexstr[i] == '\\') {
       strncpy(buf, chexstr + i + 2, 2);
       buf[2] = '\0';
-
       bytes[n] = strtol(buf, NULL, 16);
       ++n;
     }
   }
-
   bytes[n] = '\0';
-
   return bytes;
 }
