@@ -16,7 +16,8 @@ main()
     fi
 
     regex='\t([0-9a-f]{2}\s)+'
-    hex=$(x86_64-w64-mingw32-objdump -d "$1" | grep -oP $regex)
+    hex=$(x86_64-w64-mingw32-objdump -d "$1" "${@:3}" \
+                      | grep -oP $regex)
     hex=$(printf '%s' $hex | sed -r 's/(90)*$//g')
 
     if [[ $flag -ge 2 ]]
