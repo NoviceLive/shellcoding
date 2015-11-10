@@ -16,8 +16,14 @@ main()
     fi
 
     regex='\t([0-9a-f]{2}\s)+'
-    hex=$(x86_64-w64-mingw32-objdump -d "$1" "${@:3}" \
-                      | grep -oP $regex)
+    if type x86_64-w64-mingw32-objdump > /dev/null 2>&1
+    then
+        dumper=x86_64-w64-mingw32-objdump
+    else
+        dumper=objdump
+    fi
+    hex=$($dumper -d "$1" "${@:3}" \
+                      | grep -oP $regex) || exit 233
     hex=$(printf '%s' $hex | sed -r 's/(90)*$//g')
 
     if [[ $flag -ge 2 ]]
@@ -46,7 +52,6 @@ EOF
 # include <sys/mman.h>
 EOF
         fi
-
         if [[ $flag -eq 4 ]]
         then
             cat <<EOF
@@ -65,9 +70,7 @@ main(void)
 EOF
         printf '  char shellcode[] = "'
     fi
-
     format_hex $hex $flag
-
     if [[ $flag -ge 2 ]]
     then
         printf '";\n\n'
@@ -126,7 +129,6 @@ format_hex()
             c=0
             printf '"\n    "'
         fi
-
         printf $fmt ${1:$i:2}
         i=$(($i+2))
         c=$(($c+1))
