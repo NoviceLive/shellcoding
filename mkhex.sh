@@ -22,7 +22,7 @@ main()
     else
         dumper=objdump
     fi
-    hex=$($dumper -d "$1" "${@:3}" \
+    hex=$($dumper -z -d "$1" "${@:3}" \
                       | grep -oP $regex) || exit 233
     hex=$(printf '%s' $hex | sed -r 's/(90)*$//g')
 
