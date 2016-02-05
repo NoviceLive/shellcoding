@@ -20,7 +20,7 @@ and / or constructing C source code for demonstration or testing.
 Disassembling the given hex string using `objdump`.
 
 Note that it relies on a `unhex` command,
-available at [pattern.c](https://github.com/NoviceLive/pattern.c),
+available at [pattern](https://github.com/NoviceLive/pattern),
 and the Z Shell must be installed due to the use of `=()`.
 
 For example:

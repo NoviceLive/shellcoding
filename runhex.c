@@ -26,18 +26,19 @@
 # define SIZE 4096
 
 
-char *
+static char *
 chexstr_to_bytes(const char *str, char *bytes);
 
 
 int
 main (int argc, char *argv[])
 {
+  char shellcode[SIZE];
+
   if (argc != 2) {
     printf ("%s\n", "exiting...");
-    exit (-1);
+    return EXIT_FAILURE;
   }
-  char shellcode[SIZE];
 
 # ifdef __linux__
   int failure = mprotect ((void *)((uintptr_t)shellcode & ~4095),
@@ -61,26 +62,27 @@ main (int argc, char *argv[])
 # endif /* _WIN32 */
 
   printf("[+] %s\n", "Starting...");
-  printf("        strlen(argv[1]) / 4 = " SIZE_T_FMT "\n", strlen(argv[1]) / 4);
+  /* printf("        strlen(argv[1]) / 4 = " SIZE_T_FMT "\n", strlen(argv[1]) / 4); */
   printf("[+] %s\n", "Converting To Bytes...");
-  chexstr_to_bytes(argv[1], shellcode);
+  (void)chexstr_to_bytes(argv[1], shellcode);
   printf("[+] %s\n", "Executing Data On The Stack...");
   ((void (*)(void))shellcode)();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 
 char *
 chexstr_to_bytes(const char *chexstr, char *bytes)
 {
-  int n = 0;
+  size_t i;
   char buf[3];
-  for (int i = 0; i < strlen(chexstr); ++i) {
+  int n = 0;
+  for (i = 0; i < strlen(chexstr); ++i) {
     if (chexstr[i] == '\\') {
       strncpy(buf, chexstr + i + 2, 2);
       buf[2] = '\0';
-      bytes[n] = strtol(buf, NULL, 16);
+      bytes[n] = (char)strtol(buf, NULL, 16);
       ++n;
     }
   }
