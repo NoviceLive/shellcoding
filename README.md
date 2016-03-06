@@ -4,7 +4,7 @@
 ## Programs
 
 
-### [runhex.c](./runhex.c)
+### [runbin.c](./utils/runbin.c)
 
 Executing C-style hex-escaped string data on the stack.
 
@@ -14,7 +14,7 @@ Prebuilt binaries exist both for Windows and Linux.
 ## Scripts
 
 
-### [mkhex.sh](./mkhex.sh)
+### [mkhex.sh](./historic/mkhex.sh)
 
 This is deprecated.
 
@@ -22,13 +22,11 @@ Extracting shellcode from binaries
 and / or constructing C source code for demonstration or testing.
 
 
-### [dishex32.sh](./dishex32.sh) / [dishex64.sh](./dishex64.sh)
+### [dishex32.sh](./sh/dishex32.sh) / [dishex64.sh](./sh/dishex64.sh)
 
 Disassembling the given hex string using `objdump`.
 
-Note that it relies on a `unhex` command,
-available at [pattern](https://github.com/NoviceLive/pattern),
-and the Z Shell must be installed due to the use of `=()`.
+Z Shell must be installed due to the use of `=()`.
 
 For example:
 
@@ -53,4 +51,4 @@ For example:
 
 ## Documentation
 
-- [对照内核结构深入理解动态定位 API](doc/api-res-zh_CN.md)
+- [对照内核结构深入理解动态定位 API](./doc/api-res-zh_CN.md)
