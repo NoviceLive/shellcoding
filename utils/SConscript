@@ -2,75 +2,56 @@ import os
 
 
 BIN = os.path.expanduser('~/.local/bin')
+ARG = os.path.expanduser('~/ref/argparse.git')
+
+
+def build(env, bits, extra=''):
+    suffix = str(bits if bits == 32 else '') + extra
+    O = lambda x: x + '{}.o'.format(suffix)
+    B = lambda x: x + '{}'.format(suffix)
+    I = lambda x: x + '{}'.format(suffix)
+
+    libhex = env.Object(O('libhex'), 'libhex.c')
+    hex = env.Object(O('hex'), 'hex.c')
+    unhex = env.Object(O('unhex'), 'unhex.c')
+    argparse = env.Object(
+        O('argparse'),
+        os.path.join(ARG, 'argparse.c'))
+    runbin = env.Object(O('runbin'), 'runbin.c')
+
+    hex = env.Program(B('hex'), libhex + hex)
+    unhex = env.Program(B('unhex'), libhex + unhex)
+    runbin = env.Program(
+        B('runbin'), runbin + argparse,
+        LINKFLAGS=['-lm', '' if bits == 64 else '-m32'])
+
+    env.Alias(I('install'), env.Install(BIN, [hex, unhex, runbin]))
 
 
 env = Environment(
     CC='gcc',
-    CCFLAGS=['-O2'],
-    LINKFLAGS=[''])
-
-libhex = env.Object('libhex.o', 'libhex.c')
-hex = env.Object('hex.o', 'hex.c')
-unhex = env.Object('unhex.o', 'unhex.c')
-runbin = env.Object('runbin.o', 'runbin.c')
-
-hex = env.Program('hex', libhex + hex)
-unhex = env.Program('unhex', libhex + unhex)
-runbin = env.Program('runbin', runbin)
-env.Alias('install', env.Install(BIN, hex))
-env.Alias('install', env.Install(BIN, unhex))
-env.Alias('install', env.Install(BIN, runbin))
+    CCFLAGS=['-O2', '-I'+ ARG, '-std=c99'],
+    LINKFLAGS=[]
+)
+build(env, 64)
 
 
 env = Environment(
     CC='gcc',
-    CCFLAGS=['-O2', '-m32'],
+    CCFLAGS=['-O2', '-I'+ ARG, '-std=c99', '-m32'],
     LINKFLAGS=['-m32'])
-
-libhex = env.Object('libhex32.o', 'libhex.c')
-hex = env.Object('hex32.o', 'hex.c')
-unhex = env.Object('unhex32.o', 'unhex.c')
-runbin = env.Object('runbin32.o', 'runbin.c')
-
-env.Program('hex32', libhex + hex)
-env.Program('unhex32', libhex + unhex)
-env.Program('runbin32', runbin)
-env.Alias('install-32', env.Install(BIN, hex))
-env.Alias('install-32', env.Install(BIN, unhex))
-env.Alias('install-32', env.Install(BIN, runbin))
+build(env, 32)
 
 
 env = Environment(
     CC='i686-w64-mingw32-gcc',
-    CCFLAGS=['-O2', '-m32'],
-    LINKFLAGS=['-m32'])
-
-libhex = env.Object('libhex32.obj', 'libhex.c')
-hex = env.Object('hex32.obj', 'hex.c')
-unhex = env.Object('unhex32.obj', 'unhex.c')
-runbin = env.Object('runbin32.obj', 'runbin.c')
-
-env.Program('hex32.exe', libhex + hex)
-env.Program('unhex32.exe', libhex + unhex)
-env.Program('runbin32.exe', runbin)
-env.Alias('install-win32', env.Install(BIN, hex))
-env.Alias('install-win32', env.Install(BIN, unhex))
-env.Alias('install-win32', env.Install(BIN, runbin))
+    CCFLAGS=['-O2', '-I'+ ARG, '-std=c99'],
+    LINKFLAGS=[])
+build(env, 32, extra='.exe')
 
 
 env = Environment(
     CC='x86_64-w64-mingw32-gcc',
-    CCFLAGS=['-O2'],
+    CCFLAGS=['-O2', '-I'+ ARG, '-std=c99'],
     LINKFLAGS=[''])
-
-libhex = env.Object('libhex.obj', 'libhex.c')
-hex = env.Object('hex.obj', 'hex.c')
-unhex = env.Object('unhex.obj', 'unhex.c')
-runbin = env.Object('runbin.obj', 'runbin.c')
-
-env.Program('hex.exe', libhex + hex)
-env.Program('unhex.exe', libhex + unhex)
-env.Program('runbin.exe', runbin)
-env.Alias('install-win', env.Install(BIN, hex))
-env.Alias('install-win', env.Install(BIN, unhex))
-env.Alias('install-win', env.Install(BIN, runbin))
+build(env, 64, extra='.exe')
