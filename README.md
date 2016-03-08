@@ -4,30 +4,11 @@
 ## Programs
 
 
-### [RunBin](./runbin/runbin.c)
+### [RunBin]
+
+This was removed to an independent repository, [RunBin].
 
 Executing data on the stack, which is used to test and debug shellcode.
-
-Prebuilt binaries exist both for Windows and Linux.
-
-#### Usage
-
-```
-$ runbin --help
-Usage: runbin [-e] [-q] <filename>
-
-    -h, --help    show this help message and exit
-    -e, --escape  Use escape or raw hex.
-    -q, --quiet   Don't confirm.
-```
-
-#### Examples
-
-```
-$ runbin tests/64.bin
-$ runbin tests/64.esc -e
-$ runbin tests/64.txt -e
-```
 
 
 ## Scripts
@@ -35,7 +16,7 @@ $ runbin tests/64.txt -e
 
 ### [mkhex.sh](./historic/mkhex.sh)
 
-This is deprecated
+This was deprecated
 and [IntelliCoder] is strongly recommended for the time being.
 
 Extracting shellcode from binaries
@@ -75,3 +56,4 @@ For example:
 
 
 [IntelliCoder]: https://github.com/NoviceLive/intellicoder
+[RunBin]: https://github.com/NoviceLive/runbin
