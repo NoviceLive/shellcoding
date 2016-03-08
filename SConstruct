@@ -1,1 +1,1 @@
-SConscript('utils/SConscript', variant_dir='bin', duplicate=0)
+SConscript('runbin/SConscript', variant_dir='bin', duplicate=0)

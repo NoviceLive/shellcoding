@@ -1,9 +1,21 @@
 /*
- * Executing C-Style-Hex-Escaped String Data On The Stack
- *
- * Copyright 2015 Gu Zhengxiong <rectigu@gmail.com>
- *
- */
+Copyright 2015-2016 Gu Zhengxiong <rectigu@gmail.com>
+
+This file is part of RunBin.
+
+RunBin is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+RunBin is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with RunBin.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 
 # ifndef CPP
@@ -13,24 +25,22 @@
 # include <stdint.h>
 # endif
 
+# include <argparse.h>
+
 # ifdef __linux__
-#  include <sys/mman.h> /* For mprotect */
+#  include <sys/mman.h> /* For mprotect. */
 # define SIZE_T_FMT "%zu"
 # endif /* __linux__ */
-
 # ifdef _WIN32
-#  include <windows.h> /* For VirtualProtect */
+#  include <windows.h> /* For VirtualProtect. */
 # define SIZE_T_FMT "%Iu"
 # endif /* _WIN32 */
 
-# include <argparse.h>
+# include "libhex.h"
 
 
 # define SIZE 4096
 
-
-char *
-esc_str_to_bytes(const char *str, char *bytes);
 
 void print_mem(void *addr, size_t count);
 
@@ -38,20 +48,24 @@ int make_exec(void *addr, size_t count);
 
 void exec_addr(void *addr);
 
+char *remove_chars(char *input, char * evil);
+
 
 int
 main (int argc, const char * argv[])
 {
   int escape = 0;
+  int quiet = 0;
 
   struct argparse argparse;
   struct argparse_option options[] = {
     OPT_HELP(),
-    OPT_BOOLEAN('e', "escape", &escape, "Use escape mode."),
+    OPT_BOOLEAN('e', "escape", &escape, "Use escape or raw hex."),
+    OPT_BOOLEAN('q', "quiet", &quiet, "Don't confirm."),
     OPT_END()
   };
   static const char *const usage[] = {
-    "runbin [-e] <filename>", NULL
+    "runbin [-e] [-q] <filename>", NULL
   };
   argparse_init(&argparse, options, usage, 0);
   argc = argparse_parse(&argparse, argc, argv);
@@ -61,7 +75,6 @@ main (int argc, const char * argv[])
   }
 
   char buffer[SIZE];
-  char shellcode[SIZE];
   const char *filename = argv[0];
   FILE *stream = fopen(filename, "rb");
   if (stream == NULL) {
@@ -78,15 +91,23 @@ main (int argc, const char * argv[])
 
   void *addr = NULL;
   if (escape) {
-    (void)esc_str_to_bytes(buffer, shellcode);
-    count = strlen(shellcode);
-    addr = shellcode;
+    remove_chars(buffer, "\\x\n");
+    unhex(buffer);
+    count = strlen(buffer);
+    addr = buffer;
   } else {
     addr = buffer;
   }
 
   fprintf(stderr, "[-] Printing memory: %p %d\n", addr, count);
   print_mem(addr, count);
+
+  if (!quiet) {
+    fprintf(stderr, "Testing shellcode might be dangerous.\n");
+    fprintf(stderr, "Are you sure? Enter to continue...");
+    getchar();
+  }
+
   if (make_exec(addr, count)) {
     fprintf(stderr, "[-] Executing address: %p\n", addr);
     exec_addr(addr);
@@ -136,20 +157,21 @@ void exec_addr(void *addr)
 }
 
 
-char *
-esc_str_to_bytes(const char *chexstr, char *bytes)
+char *remove_chars(char *input, char * evil)
 {
-  size_t i;
-  char buf[3];
-  int n = 0;
-  for (i = 0; i < strlen(chexstr); ++i) {
-    if (chexstr[i] == '\\') {
-      strncpy(buf, chexstr + i + 2, 2);
-      buf[2] = '\0';
-      bytes[n] = (char)strtol(buf, NULL, 16);
-      ++n;
+  size_t evil_len = strlen(evil);
+  for (size_t round = 0; round < evil_len; round += 1) {
+    size_t input_len = strlen(input);
+    size_t good = 0;
+    for (size_t current = 0; current < input_len; current += 1) {
+      if (input[current] == evil[round]) {
+        continue;
+      } else {
+        input[good] = input[current];
+        good += 1;
+      }
     }
+    input[good] = '\0';
   }
-  bytes[n] = '\0';
-  return bytes;
+  return input;
 }

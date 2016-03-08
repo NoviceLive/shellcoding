@@ -22,7 +22,7 @@ def build(env, bits, extra=''):
     hex = env.Program(B('hex'), libhex + hex)
     unhex = env.Program(B('unhex'), libhex + unhex)
     runbin = env.Program(
-        B('runbin'), runbin + argparse,
+        B('runbin'), runbin + libhex + argparse,
         LINKFLAGS=['-lm', '' if bits == 64 else '-m32'])
 
     env.Alias(I('install'), env.Install(BIN, [hex, unhex, runbin]))
