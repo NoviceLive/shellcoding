@@ -16,7 +16,8 @@ Prebuilt binaries exist both for Windows and Linux.
 
 ### [mkhex.sh](./historic/mkhex.sh)
 
-This is deprecated.
+This is deprecated
+and [IntelliCoder] is strongly recommended for the time being.
 
 Extracting shellcode from binaries
 and / or constructing C source code for demonstration or testing.
@@ -52,3 +53,6 @@ For example:
 ## Documentation
 
 - [对照内核结构深入理解动态定位 API](./doc/api-res-zh_CN.md)
+
+
+IntelliCoder: https://github.com/NoviceLive/intellicoder
