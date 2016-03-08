@@ -6,7 +6,7 @@
 
 ### [RunBin]
 
-This was removed to an independent repository, [RunBin].
+This was migrated to an independent repository, [RunBin].
 
 Executing data on the stack, which is used to test and debug shellcode.
 
