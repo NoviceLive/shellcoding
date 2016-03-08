@@ -55,4 +55,4 @@ For example:
 - [对照内核结构深入理解动态定位 API](./doc/api-res-zh_CN.md)
 
 
-IntelliCoder: https://github.com/NoviceLive/intellicoder
+[IntelliCoder]: https://github.com/NoviceLive/intellicoder
