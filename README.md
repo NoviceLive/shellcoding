@@ -25,14 +25,12 @@ and / or constructing C source code for demonstration or testing.
 
 ### [dishex32.sh](./sh/dishex32.sh) / [dishex64.sh](./sh/dishex64.sh)
 
-Disassembling the given hex string using `objdump`.
-
-Z Shell must be installed due to the use of `=()`.
+Disassemble the given raw binary using `objdump`.
 
 For example:
 
 ```bash
-./dishex64.sh cccccccc
+./dishex64.sh 32.bin
 ```
 
 

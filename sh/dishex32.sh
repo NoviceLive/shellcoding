@@ -13,4 +13,4 @@ then
 fi
 
 
-objdump -D -b binary -m i386 -M intel =(unhex $1)
+objdump -D -b binary -m i386 -M intel "${1}"
