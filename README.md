@@ -23,15 +23,11 @@ Extracting shellcode from binaries
 and / or constructing C source code for demonstration or testing.
 
 
-### [dishex32.sh](./sh/dishex32.sh) / [dishex64.sh](./sh/dishex64.sh)
+### disbin32 / disbin64
+
+This was migrated to an independent repository, [RunBin].
 
 Disassemble the given raw binary using `objdump`.
-
-For example:
-
-```bash
-./dishex64.sh 32.bin
-```
 
 
 ## Linux Shellcode
